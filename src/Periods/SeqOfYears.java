@@ -12,7 +12,7 @@ public class SeqOfYears {
 	public static final int END_YEAR_ARRAY = 2100;
 	public static final int END_YEAR_INTER = 2099;
 
-	public List<Integer> milestones;
+	private List<Integer> milestones;
 
 	public SeqOfYears (int[] years)
 	{
