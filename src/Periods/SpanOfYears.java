@@ -1,12 +1,12 @@
 package Periods;
 
 public class SpanOfYears implements Comparable<SpanOfYears>, Cloneable {
-	public static SpanOfYears Year(int year)
+	public static SpanOfYears createFromYear(int year)
 	{
 		return new SpanOfYears(year, year);
 	}
 
-	public static SpanOfYears Years(int from, int upto)
+	public static SpanOfYears createFromYearToYear(int from, int upto)
 	{
 		return new SpanOfYears(from, upto);
 	}
