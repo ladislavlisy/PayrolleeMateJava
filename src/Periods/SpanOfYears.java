@@ -1,9 +1,6 @@
 package Periods;
 
 public class SpanOfYears implements Comparable<SpanOfYears>, Cloneable {
-	public static final int END_YEAR_ARRAY = 2100;
-	public static final int END_YEAR_INTER = 2099;
-
 	public static SpanOfYears Year(int year)
 	{
 		return new SpanOfYears(year, year);
@@ -29,8 +26,8 @@ public class SpanOfYears implements Comparable<SpanOfYears>, Cloneable {
 		this.yearUpto = upto;
 	}
 
-	public int YearFrom() { return yearFrom; }
-	public int YearUpto() { return yearUpto; }
+	public int getYearFrom() { return yearFrom; }
+	public int getYearUpto() { return yearUpto; }
 
 
 	public boolean isEqualToInterval(SpanOfYears other)
@@ -93,9 +90,20 @@ public class SpanOfYears implements Comparable<SpanOfYears>, Cloneable {
 		return this.ClassName();
 	}
 
-	public Object Clone()
+	@Override
+	public Object clone()
 	{
-		SpanOfYears otherInterval = (SpanOfYears)this.Clone();
+		SpanOfYears otherInterval;
+		try
+		{
+			otherInterval = (SpanOfYears)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new Error();
+		}
+
+		// Deep clone member fields here
 		otherInterval.yearFrom = this.yearFrom;
 		otherInterval.yearUpto = this.yearUpto;
 		return otherInterval;

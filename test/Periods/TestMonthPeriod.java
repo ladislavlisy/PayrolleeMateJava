@@ -105,22 +105,22 @@ public class TestMonthPeriod {
 	{
 		MonthPeriod testPeriodOne = new MonthPeriod (testPeriodCodeJan);
 
-		assertEquals(testPeriodOne.Year(), 2014);
-		assertEquals(testPeriodOne.Month(), 1);
+		assertEquals(testPeriodOne.year(), 2014);
+		assertEquals(testPeriodOne.month(), 1);
 
-		assertEquals(testPeriodOne.YearInt(), 2014);
-		assertEquals(testPeriodOne.MonthInt(), 1);
+		assertEquals(testPeriodOne.yearInt(), 2014);
+		assertEquals(testPeriodOne.monthInt(), 1);
 	}
 	@Test
 	public void Should_Return_Periods_Year_And_Month_2014_02()
 	{
 		MonthPeriod testPeriodTwo = new MonthPeriod (testPeriodCodeFeb);
 
-		assertEquals(testPeriodTwo.Year(), 2014);
-		assertEquals(testPeriodTwo.Month(), 2);
+		assertEquals(testPeriodTwo.year(), 2014);
+		assertEquals(testPeriodTwo.month(), 2);
 
-		assertEquals(testPeriodTwo.YearInt(), 2014);
-		assertEquals(testPeriodTwo.MonthInt(), 2);
+		assertEquals(testPeriodTwo.yearInt(), 2014);
+		assertEquals(testPeriodTwo.monthInt(), 2);
 	}
 	@Test
     public void Should_Return_Periods_Month_And_Year_Description()
@@ -130,9 +130,9 @@ public class TestMonthPeriod {
 		MonthPeriod testPeriod501 = new MonthPeriod (testPeriodCode501);
 		MonthPeriod testPeriod402 = new MonthPeriod (testPeriodCode402);
 
-		assertEquals(("January 2014"), testPeriodJan.Description());
-		assertEquals(("February 2014"), testPeriodFeb.Description());
-		assertEquals(("January 2015"), testPeriod501.Description());
-		assertEquals(("February 2014"), testPeriod402.Description());
+		assertEquals(("January 2014"), testPeriodJan.description());
+		assertEquals(("February 2014"), testPeriodFeb.description());
+		assertEquals(("January 2015"), testPeriod501.description());
+		assertEquals(("February 2014"), testPeriod402.description());
 	}
 }

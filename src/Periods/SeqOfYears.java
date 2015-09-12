@@ -25,38 +25,36 @@ public class SeqOfYears {
 		this.milestones = Arrays.stream(years).boxed().sorted(sortYears).collect(Collectors.toList());	
 	}
 
-	public SpanOfYears SpanForPeriod(MonthPeriod period)
+	public SpanOfYears yearsIntervalForPeriod(MonthPeriod period)
 	{
-		BiFunction<SpanOfYears,Integer,SpanOfYears> spanOfPeriodReducer = (agr, x) -> {
-			Integer intFrom = agr.YearFrom();
-			Integer intUpto = agr.YearUpto();
+		BiFunction<SpanOfYears,Integer,SpanOfYears> forPeriodAccumulator = (agr, x) -> {
+			Integer intFrom = agr.getYearFrom();
+			Integer intUpto = agr.getYearUpto();
 			Integer intYear = x;
 			if (x == 0)
 			{
 				intYear = END_YEAR_ARRAY;
 			}
-			if (period.Year() >= intYear)
+			if (period.year() >= intYear)
 			{
 				intFrom = intYear;
 			}
-			if (period.Year() < intYear && intUpto == 0)
+			if (period.year() < intYear && intUpto == 0)
 			{
 				intUpto = (intYear-1);
 			}
 			return new SpanOfYears(intFrom, intUpto);
 		};
-		BinaryOperator<SpanOfYears> spanOfPeriodAccept = (agr1, agr2) -> {
-			return agr2;
-		};
+		BinaryOperator<SpanOfYears> forPeriodCombiner = (agr1, agr2) -> (agr2);
 		SpanOfYears initsSpan = new SpanOfYears();
-		SpanOfYears validSpan = milestones.stream().sequential().reduce(initsSpan, spanOfPeriodReducer, spanOfPeriodAccept);
+		SpanOfYears validSpan = milestones.stream().sequential().reduce(initsSpan, forPeriodAccumulator, forPeriodCombiner);
 		return validSpan;
 	}
 
-	public List<SpanOfYears> ToArray()
+	public List<SpanOfYears> toYearsIntervalList()
 	{
-		BiFunction<List<SpanOfYears>,Integer,List<SpanOfYears>> toArrayReducer = (agr, x) -> {
-			List<SpanOfYears> firsts = agr.stream().sequential().filter((y) -> (y.YearUpto() != 0)).collect(Collectors.toList());
+		BiFunction<List<SpanOfYears>,Integer,List<SpanOfYears>> toListAccumulator = (agr, x) -> {
+			List<SpanOfYears> firsts = agr.stream().sequential().filter((y) -> (y.getYearUpto() != 0)).collect(Collectors.toList());
 			
 			if (agr.size() == 0)
 			{
@@ -69,7 +67,7 @@ public class SeqOfYears {
 	
 				if (x == 0)
 				{
-					Integer historyFrom = last.YearFrom();
+					Integer historyFrom = last.getYearFrom();
 					Integer historyUpto = END_YEAR_INTER;
 	
 					firsts.add(new SpanOfYears(historyFrom, historyUpto));
@@ -77,7 +75,7 @@ public class SeqOfYears {
 				}
 				else
 				{
-					Integer historyFrom = last.YearFrom();
+					Integer historyFrom = last.getYearFrom();
 					Integer historyUpto = Math.max((x-1), historyFrom);
 	
 					firsts.add(new SpanOfYears(historyFrom, historyUpto));
@@ -87,22 +85,21 @@ public class SeqOfYears {
 			}
 		};
 
-		BinaryOperator<List<SpanOfYears>> toArrayAccept = (agr1, agr2) -> {
-			return agr2;
-		};
-		List<SpanOfYears> history = milestones.stream().sequential().reduce(new ArrayList<SpanOfYears>(), toArrayReducer, toArrayAccept);
+		BinaryOperator<List<SpanOfYears>> toListCombiner = (agr1, agr2) -> (agr2);
+
+		List<SpanOfYears> history = milestones.stream().sequential().reduce(new ArrayList<SpanOfYears>(), toListAccumulator, toListCombiner);
 		
-		SpanOfYears historylast = history.get(history.size()-1);	
+		SpanOfYears lastPart = history.get(history.size() - 1);
 
-		if (historylast.YearUpto() == 0)
+		if (lastPart.getYearUpto() == 0)
 		{
-			List<SpanOfYears> historyFirsts = history.stream().sequential().filter((y) -> (y.YearUpto() != 0)).collect(Collectors.toList());
+			List<SpanOfYears> firstPart = history.stream().sequential().filter((y) -> (y.getYearUpto() != 0)).collect(Collectors.toList());
 
-			Integer historyFrom = historylast.YearFrom();
-			Integer historyUpto = historylast.YearFrom();
+			Integer historyFrom = lastPart.getYearFrom();
+			Integer historyUpto = lastPart.getYearFrom();
 
-			historyFirsts.add(new SpanOfYears(historyFrom, historyUpto));
-			return historyFirsts;
+			firstPart.add(new SpanOfYears(historyFrom, historyUpto));
+			return firstPart;
 		}
 		return history;
 	}

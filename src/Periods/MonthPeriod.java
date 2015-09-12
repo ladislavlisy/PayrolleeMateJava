@@ -23,17 +23,17 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 		this.code = element.code;
 	}
 
-	public static MonthPeriod Empty()
+	public static MonthPeriod empty()
 	{
 		return new MonthPeriod(PRESENT);
 	}
 	
-	public static MonthPeriod BeginYear(int year)
+	public static MonthPeriod beginYear(int year)
 	{
 		return new MonthPeriod(year*100 + 1);
 	}
 
-	public static MonthPeriod EndYear(int year)
+	public static MonthPeriod endYear(int year)
 	{
 		return new MonthPeriod(year*100 + 12);
 	}
@@ -43,63 +43,63 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 		this(year*100 + month);
 	}
 
-	public int Code() { return code; }
+	public int getCode() { return code; }
 
-	public int Year()
+	public int year()
 	{
 		return (code / 100);
 	}
 
-	public byte Month()
+	public byte month()
 	{
 		return (byte)(code % 100);
 	}
 
-	public int YearInt()
+	public int yearInt()
 	{
-		return (int)(code / 100);
+		return (code / 100);
 	}
 
-	public int MonthInt()
+	public int monthInt()
 	{
-		return (int)(code % 100);
+		return (code % 100);
 	}
 
-	public int MonthOrder()
+	public int monthOrder()
 	{
-		return (Math.max(0, YearInt() - 2000)*12 + MonthInt());
+		return (Math.max(0, yearInt() - 2000)*12 + monthInt());
 	}
 
-	public int DaysInMonth()
+	public int daysInMonth()
 	{
-		return YearMonth.of(YearInt(), MonthInt()).lengthOfMonth();
+		return YearMonth.of(yearInt(), monthInt()).lengthOfMonth();
 	}
 
-	public LocalDate BeginOfMonth()
+	public LocalDate beginOfMonth()
 	{
-		return LocalDate.of(YearInt(), MonthInt(), 1);
+		return LocalDate.of(yearInt(), monthInt(), 1);
 	}
 
-	public LocalDate EndOfMonth()
+	public LocalDate endOfMonth()
 	{
-		return LocalDate.of(YearInt(), MonthInt(), DaysInMonth());
+		return LocalDate.of(yearInt(), monthInt(), daysInMonth());
 	}
 
-	public LocalDate DateOfMonth(int dayOrdinal)
+	public LocalDate dateOfMonth(int dayOrdinal)
 	{
-		int periodDay = Math.min (Math.max (1, dayOrdinal), DaysInMonth ());
+		int periodDay = Math.min(Math.max(1, dayOrdinal), daysInMonth());
 
-		return LocalDate.of(YearInt(), MonthInt(), periodDay);
+		return LocalDate.of(yearInt(), monthInt(), periodDay);
 	}
 
-	public int WeekDayOfMonth(int dayOrdinal)
+	public int weekDayOfMonth(int dayOrdinal)
 	{
-		LocalDate periodDate = DateOfMonth(dayOrdinal);
+		LocalDate periodDate = dateOfMonth(dayOrdinal);
 
-		return DayOfWeekMonToSun(periodDate);
+		return dayOfWeekMonToSun(periodDate);
 	}
 
-	public static int DayOfWeekMonToSun(LocalDate periodDate)
+	public static int dayOfWeekMonToSun(LocalDate periodDate)
 	{
 		DayOfWeek periodDateCwd = periodDate.getDayOfWeek();
 		// DayOfWeek Sunday = 7,
@@ -107,9 +107,9 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 		return periodDateCwd.getValue();
 	}
 
-	public String Description()
+	public String description()
 	{
-		LocalDate firstPeriodDay = BeginOfMonth();
+		LocalDate firstPeriodDay = beginOfMonth();
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
 		return firstPeriodDay.format(dateFormatter);
 	}
@@ -139,7 +139,7 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
         int prime = 31;
         int result = super.hashCode();
 
-        result += prime * result + (int)this.code;
+        result += prime * result + this.code;
 
         return result;		
 	}
@@ -155,12 +155,22 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 		return Integer.toString(this.code);
 	}
 
-	public Object Clone()
+	@Override
+	public Object clone()
 	{
-		MonthPeriod otherPeriod = (MonthPeriod)this.Clone();
+		MonthPeriod otherPeriod;
+		try
+		{
+			otherPeriod = (MonthPeriod)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new Error();
+		}
+
+		// Deep clone member fields here
 		otherPeriod.code = this.code;
 		return otherPeriod;
 	}
 
-	
 }

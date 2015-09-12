@@ -39,9 +39,9 @@ public class TestSpanOfYears {
 				new SpanOfYears(2016, 2016),
 				new SpanOfYears(2017, 2099)).
 				sequential().
-				collect(Collectors.toList());	
-		;
-		List<SpanOfYears> testIntervalArray = testYearArray.ToArray ();
+				collect(Collectors.toList());
+
+		List<SpanOfYears> testIntervalArray = testYearArray.toYearsIntervalList();
 		assertEquals(expIntervalArray, testIntervalArray);
 	}
 
@@ -54,7 +54,7 @@ public class TestSpanOfYears {
 
 		MonthPeriod testPeriod = new MonthPeriod (2011, 1);
 		SpanOfYears expInterval = new SpanOfYears(2011, 2011);
-		SpanOfYears testInterval = testYearArray.SpanForPeriod (testPeriod);
+		SpanOfYears testInterval = testYearArray.yearsIntervalForPeriod(testPeriod);
 		assertEquals (expInterval, testInterval);
 	}
 
@@ -67,7 +67,7 @@ public class TestSpanOfYears {
 
 		MonthPeriod testPeriod = new MonthPeriod (2016, 1);
 		SpanOfYears expInterval = new SpanOfYears(2016, 2016);
-		SpanOfYears testInterval = testYearArray.SpanForPeriod (testPeriod);
+		SpanOfYears testInterval = testYearArray.yearsIntervalForPeriod(testPeriod);
 		assertEquals (expInterval, testInterval);
 	}
 
@@ -80,7 +80,7 @@ public class TestSpanOfYears {
 
 		MonthPeriod testPeriod = new MonthPeriod (2013, 1);
 		SpanOfYears expInterval = new SpanOfYears(2012, 2013);
-		SpanOfYears testInterval = testYearArray.SpanForPeriod (testPeriod);
+		SpanOfYears testInterval = testYearArray.yearsIntervalForPeriod(testPeriod);
 		assertEquals (expInterval, testInterval);
 	}
 
@@ -93,7 +93,7 @@ public class TestSpanOfYears {
 
 		MonthPeriod testPeriod = new MonthPeriod (2018, 1);
 		SpanOfYears expInterval = new SpanOfYears(2017, 2099);
-		SpanOfYears testInterval = testYearArray.SpanForPeriod (testPeriod);
+		SpanOfYears testInterval = testYearArray.yearsIntervalForPeriod(testPeriod);
 		assertEquals (expInterval, testInterval);
 	}
 }
