@@ -54,33 +54,33 @@ public class SeqOfYears {
 	public List<SpanOfYears> toYearsIntervalList()
 	{
 		BiFunction<List<SpanOfYears>,Integer,List<SpanOfYears>> toListAccumulator = (agr, x) -> {
-			List<SpanOfYears> firsts = agr.stream().sequential().filter((y) -> (y.getYearUpto() != 0)).collect(Collectors.toList());
+			List<SpanOfYears> firstPart = agr.stream().sequential().filter((y) -> (y.getYearUpto() != 0)).collect(Collectors.toList());
 			
 			if (agr.size() == 0)
 			{
-				firsts.add(new SpanOfYears(x, 0));
-				return firsts;
+				firstPart.add(new SpanOfYears(x, 0));
+				return firstPart;
 			}
 			else
 			{
-				SpanOfYears last = agr.get(agr.size()-1);	
+				SpanOfYears lastPart = agr.get(agr.size()-1);
 	
 				if (x == 0)
 				{
-					Integer historyFrom = last.getYearFrom();
+					Integer historyFrom = lastPart.getYearFrom();
 					Integer historyUpto = END_YEAR_INTER;
-	
-					firsts.add(new SpanOfYears(historyFrom, historyUpto));
-					return firsts;
+
+					firstPart.add(new SpanOfYears(historyFrom, historyUpto));
+					return firstPart;
 				}
 				else
 				{
-					Integer historyFrom = last.getYearFrom();
+					Integer historyFrom = lastPart.getYearFrom();
 					Integer historyUpto = Math.max((x-1), historyFrom);
-	
-					firsts.add(new SpanOfYears(historyFrom, historyUpto));
-					firsts.add(new SpanOfYears(x, 0));
-					return firsts;
+
+					firstPart.add(new SpanOfYears(historyFrom, historyUpto));
+					firstPart.add(new SpanOfYears(x, 0));
+					return firstPart;
 				}
 			}
 		};
