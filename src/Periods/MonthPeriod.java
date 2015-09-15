@@ -10,6 +10,35 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 	public static final int PRESENT = 0;
 	public static final int TERM_BEG_FINISHED = 32;
 	public static final int TERM_END_FINISHED =  0;
+	public static final int WEEKSUN_SUNDAY = 0;
+	public static final int WEEKMON_SUNDAY = 7;
+
+	public static int dayOfWeekMonToSun(DayOfWeek periodDateCwd)
+	{
+		// DayOfWeek Sunday = 7,
+		// Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6,
+		return periodDateCwd.getValue();
+	}
+
+	public static MonthPeriod createFromYearAndMonth(int year, int month)
+	{
+		return new MonthPeriod(year*100 + month);
+	}
+
+	public static MonthPeriod empty()
+	{
+		return new MonthPeriod(PRESENT);
+	}
+
+	public static MonthPeriod beginYear(int year)
+	{
+		return new MonthPeriod(year*100 + 1);
+	}
+
+	public static MonthPeriod endYear(int year)
+	{
+		return new MonthPeriod(year*100 + 12);
+	}
 
 	private int code;
 	
@@ -21,21 +50,6 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 	public MonthPeriod(MonthPeriod element)
 	{
 		this.code = element.code;
-	}
-
-	public static MonthPeriod empty()
-	{
-		return new MonthPeriod(PRESENT);
-	}
-	
-	public static MonthPeriod beginYear(int year)
-	{
-		return new MonthPeriod(year*100 + 1);
-	}
-
-	public static MonthPeriod endYear(int year)
-	{
-		return new MonthPeriod(year*100 + 12);
 	}
 
 	public MonthPeriod(int year, int month)
@@ -96,15 +110,9 @@ public class MonthPeriod implements Comparable<MonthPeriod>, Cloneable {
 	{
 		LocalDate periodDate = dateOfMonth(dayOrdinal);
 
-		return dayOfWeekMonToSun(periodDate);
-	}
-
-	public static int dayOfWeekMonToSun(LocalDate periodDate)
-	{
 		DayOfWeek periodDateCwd = periodDate.getDayOfWeek();
-		// DayOfWeek Sunday = 7,
-		// Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6, 
-		return periodDateCwd.getValue();
+
+		return dayOfWeekMonToSun(periodDateCwd);
 	}
 
 	public String description()

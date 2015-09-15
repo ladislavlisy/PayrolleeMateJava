@@ -89,17 +89,17 @@ public class SeqOfYears {
 
 		List<SpanOfYears> history = milestones.stream().sequential().reduce(new ArrayList<SpanOfYears>(), toListAccumulator, toListCombiner);
 		
-		SpanOfYears lastPart = history.get(history.size() - 1);
+		SpanOfYears lastHistoryPart = history.get(history.size() - 1);
 
-		if (lastPart.getYearUpto() == 0)
+		if (lastHistoryPart.getYearUpto() == 0)
 		{
-			List<SpanOfYears> firstPart = history.stream().sequential().filter((y) -> (y.getYearUpto() != 0)).collect(Collectors.toList());
+			List<SpanOfYears> firstHistoryPart = history.stream().sequential().filter((y) -> (y.getYearUpto() != 0)).collect(Collectors.toList());
 
-			Integer historyFrom = lastPart.getYearFrom();
-			Integer historyUpto = lastPart.getYearFrom();
+			Integer historyFrom = lastHistoryPart.getYearFrom();
+			Integer historyUpto = lastHistoryPart.getYearFrom();
 
-			firstPart.add(new SpanOfYears(historyFrom, historyUpto));
-			return firstPart;
+			firstHistoryPart.add(new SpanOfYears(historyFrom, historyUpto));
+			return firstHistoryPart;
 		}
 		return history;
 	}
