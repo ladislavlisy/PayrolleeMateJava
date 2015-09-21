@@ -41,16 +41,16 @@ public class SpanOfMonths implements Comparable<SpanOfMonths>, Cloneable {
 
     public boolean isEqualToInterval(SpanOfMonths other)
     {
-        return (this.periodFrom == other.periodFrom && this.periodUpto == other.periodUpto);
+        return (this.periodFrom.equals(other.periodFrom) && this.periodUpto.equals(other.periodUpto));
     }
 
     @Override
     public int compareTo(SpanOfMonths other) {
-        if (this.periodFrom != other.periodFrom)
+        if (this.periodFrom.equals(other.periodFrom))
         {
-            return this.periodFrom.compareTo(other.periodFrom);
+            return (this.periodUpto.compareTo(other.periodUpto));
         }
-        return (this.periodUpto.compareTo(other.periodUpto));
+        return this.periodFrom.compareTo(other.periodFrom);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class SpanOfMonths implements Comparable<SpanOfMonths>, Cloneable {
     {
         StringBuilder classNameBuilder = new StringBuilder(this.periodFrom.toString());
 
-        if (periodFrom != periodUpto) {
+        if (!periodFrom.equals(periodUpto)) {
             classNameBuilder.append("to").append(this.periodUpto.toString());
         }
         return classNameBuilder.toString();
