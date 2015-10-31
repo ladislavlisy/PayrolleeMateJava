@@ -42,7 +42,8 @@ public class SeqOfYears {
             return new SpanOfYears(yearFrom, spanUpto);
         };
         List<Integer> sortedYears = Arrays.stream(years).boxed().sorted(sortYears).collect(Collectors.toList());
-        List<Integer> beginsYears = sortedYears.stream().sequential().filter((year) -> year != 0).collect(Collectors.toList());
+		int beginsCount = Math.max(0, sortedYears.size()-1);
+        List<Integer> beginsYears = sortedYears.stream().sequential().limit(beginsCount).collect(Collectors.toList());
         List<Integer> finishYears = sortedYears.stream().sequential().skip(1).collect(Collectors.toList());
         Stream<SpanOfYears> sortedZiped = StreamUtils.zip(beginsYears.stream().sequential(), finishYears.stream().sequential(), zipCombiner);
         return sortedZiped.collect(Collectors.toList());
